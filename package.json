@@ -1,5 +1,5 @@
 {
-  "name": "@zeta-display/react-storage-hooks",
+  "name": "@zetadisplay/react-storage-hooks",
   "version": "5.0.0",
   "description": "React hooks for persistent state. Forked from https://github.com/soyguijarro/react-storage-hooks, original author Ramón Guijarro <hola@soyguijarro.com>",
   "keywords": [
