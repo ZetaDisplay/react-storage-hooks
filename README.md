@@ -1,12 +1,4 @@
-# react-storage-hooks
-
-[![Version](https://img.shields.io/npm/v/react-storage-hooks.svg)](https://www.npmjs.com/package/react-storage-hooks)
-![Dependencies](https://img.shields.io/david/soyguijarro/react-storage-hooks.svg)
-![Dev dependencies](https://img.shields.io/david/dev/soyguijarro/react-storage-hooks.svg)
-[![Build status](https://travis-ci.com/soyguijarro/react-storage-hooks.svg?branch=master)](https://travis-ci.com/soyguijarro/react-storage-hooks)
-[![Test coverage](https://codecov.io/gh/soyguijarro/react-storage-hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/soyguijarro/react-storage-hooks)
-![Bundle size](https://img.shields.io/bundlephobia/minzip/react-storage-hooks.svg)
-[![MIT licensed](https://img.shields.io/github/license/soyguijarro/react-storage-hooks.svg)](https://github.com/soyguijarro/react-storage-hooks/blob/master/LICENSE)
+# @zetadisplay/react-storage-hooks
 
 Custom [React hooks](https://reactjs.org/docs/hooks-intro) for keeping application state in sync with `localStorage` or `sessionStorage`.
 
@@ -14,7 +6,7 @@ Custom [React hooks](https://reactjs.org/docs/hooks-intro) for keeping applicati
 
 :sparkles: **Fully featured**. Automatically stringifies and parses values coming and going to storage, keeps state in sync between tabs by listening to [storage events](https://developer.mozilla.org/docs/Web/API/StorageEvent) and handles non-straightforward use cases correctly.
 
-:zap: **Tiny and fast**. Less than 700 bytes gzipped, enforced with [`size-limit`](https://github.com/ai/size-limit). No external dependencies. Only reads from storage when necessary and writes to storage after rendering.
+:zap: **Tiny and fast**. Less than 800 bytes gzipped, enforced with [`size-limit`](https://github.com/ai/size-limit). No external dependencies. Only reads from storage when necessary and writes to storage after rendering.
 
 :capital_abcd: **Completely typed**. Written in TypeScript. Type definitions included and verified with [`tsd`](https://github.com/SamVerschueren/tsd).
 
@@ -28,11 +20,11 @@ You need to use [version 17.0.0](https://github.com/facebook/react/blob/main/CHA
 
 Add the package to your React project:
 
-    npm install --save react-storage-hooks
+    npm install --save @zetadisplay/react-storage-hooks
 
 Or with yarn:
 
-    yarn add react-storage-hooks
+    yarn add @zetadisplay/react-storage-hooks
 
 ## Usage
 
