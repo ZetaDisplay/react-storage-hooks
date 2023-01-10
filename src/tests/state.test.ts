@@ -1,4 +1,7 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+/**
+ * @jest-environment jsdom
+ */
+import { renderHook, act, waitFor } from '@testing-library/react';
 
 import { useStorageState } from '..';
 import {
@@ -94,12 +97,13 @@ describe('updates', () => {
   it('returns new state and write error when storage writing fails once', async () => {
     mockStorageErrorOnce(localStorage, 'setItem', 'Error message');
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useStorageState(localStorage, 'key', { value: 0 })
     );
     const [, setState] = result.current;
     act(() => setState({ value: 1 }));
-    await waitForNextUpdate();
+
+    await waitFor(() => expect(result.current[2]).not.toBe(undefined));
 
     const [newState, , writeError] = result.current;
     expect(newState).toStrictEqual({ value: 1 });
@@ -109,18 +113,20 @@ describe('updates', () => {
   it('returns new state and previous write error when storage writing fails multiple times', async () => {
     mockStorageError(localStorage, 'setItem', 'Error message');
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useStorageState(localStorage, 'key', { value: 0 })
     );
     const [, setState] = result.current;
     act(() => setState({ value: 1 }));
-    await waitForNextUpdate();
+
+    await waitFor(() => expect(result.current[2]).not.toBe(undefined));
 
     const [, newSetState, writeError] = result.current;
     expect(writeError).toEqual(Error('Error message'));
 
     act(() => newSetState({ value: 2 }));
-    await waitForNextUpdate();
+
+    await waitFor(() => expect(result.current[2]).not.toBe(undefined));
 
     const [, , newWriteError] = result.current;
     expect(newWriteError).toEqual(Error('Error message'));
@@ -129,12 +135,13 @@ describe('updates', () => {
   it('returns new state and no previous write error when storage writing works after failing', async () => {
     mockStorageErrorOnce(localStorage, 'setItem', 'Error message');
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useStorageState(localStorage, 'key', { value: 0 })
     );
     const [, setState] = result.current;
     act(() => setState({ value: 1 }));
-    await waitForNextUpdate();
+
+    await waitFor(() => expect(result.current[2]).not.toBe(undefined));
 
     const [, newSetState, writeError] = result.current;
     expect(writeError).toEqual(Error('Error message'));
@@ -149,7 +156,7 @@ describe('updates', () => {
     localStorage.setItem('key', '{"value":1}');
 
     const { result, rerender } = renderHook(
-      defaultState => useStorageState(localStorage, 'key', defaultState),
+      (defaultState) => useStorageState(localStorage, 'key', defaultState),
       { initialProps: { value: 0 } }
     );
     rerender({ value: 2 });
@@ -160,7 +167,7 @@ describe('updates', () => {
 
   it('returns same state when storage empty and default state changes', () => {
     const { result, rerender } = renderHook(
-      defaultState => useStorageState(localStorage, 'key', defaultState),
+      (defaultState) => useStorageState(localStorage, 'key', defaultState),
       { initialProps: { value: 0 } }
     );
     rerender({ value: 1 });
@@ -226,7 +233,7 @@ describe('resetting', () => {
     localStorage.setItem('new-key', '{"value":1}');
 
     const { result, rerender } = renderHook(
-      key => useStorageState(localStorage, key, { value: 0 }),
+      (key) => useStorageState(localStorage, key, { value: 0 }),
       {
         initialProps: 'key',
       }
@@ -241,7 +248,7 @@ describe('resetting', () => {
     localStorage.setItem('key', '1');
 
     const { result, rerender } = renderHook(
-      key => useStorageState(localStorage, key, { value: 0 }),
+      (key) => useStorageState(localStorage, key, { value: 0 }),
       {
         initialProps: 'key',
       }
@@ -256,7 +263,7 @@ describe('resetting', () => {
     localStorage.setItem('key', '{"value":1}');
 
     const { result, rerender } = renderHook(
-      key => useStorageState(localStorage, key),
+      (key) => useStorageState(localStorage, key),
       {
         initialProps: 'key',
       }
@@ -270,13 +277,14 @@ describe('resetting', () => {
   it('returns no previous write error when key changes', async () => {
     mockStorageErrorOnce(localStorage, 'setItem', 'Error message');
 
-    const { result, rerender, waitForNextUpdate } = renderHook(
-      key => useStorageState(localStorage, key, { value: 0 }),
+    const { result, rerender } = renderHook(
+      (key) => useStorageState(localStorage, key, { value: 0 }),
       { initialProps: 'key' }
     );
     const [, setState] = result.current;
     act(() => setState({ value: 1 }));
-    await waitForNextUpdate();
+
+    await waitFor(() => expect(result.current[2]).not.toBe(undefined));
 
     const [, , writeError] = result.current;
     expect(writeError).toEqual(Error('Error message'));
@@ -292,7 +300,7 @@ describe('resetting', () => {
     localStorage.setItem('new-key', '{"value":2}');
 
     const { result, rerender } = renderHook(
-      key => useStorageState(localStorage, key, { value: 0 }),
+      (key) => useStorageState(localStorage, key, { value: 0 }),
       {
         initialProps: 'key',
       }
