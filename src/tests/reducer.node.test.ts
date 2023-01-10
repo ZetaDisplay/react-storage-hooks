@@ -1,8 +1,8 @@
 /**
- * @jest-environment node
+ * @jest-environment jsdom
  */
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import { useStorageReducer } from '..';
 import { storageLikeObject } from './utils';
@@ -24,7 +24,7 @@ it('returns default state', () => {
 
 it('returns default state (lazy initialization)', () => {
   const { result } = renderHook(() =>
-    useStorageReducer(storageLikeObject, 'key', reducer, 0, value => ({
+    useStorageReducer(storageLikeObject, 'key', reducer, 0, (value) => ({
       value,
     }))
   );

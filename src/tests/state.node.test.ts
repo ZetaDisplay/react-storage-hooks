@@ -1,8 +1,8 @@
 /**
- * @jest-environment node
+ * @jest-environment jsdom
  */
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import { useStorageState } from '..';
 import { storageLikeObject } from './utils';
