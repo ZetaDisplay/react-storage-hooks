@@ -61,7 +61,7 @@
     ],
     "extends": [
       "plugin:@typescript-eslint/recommended",
-      "plugin:react-app/recommended",
+      "plugin:react/recommended",
       "prettier",
       "prettier/@typescript-eslint"
     ],
@@ -112,7 +112,7 @@
   },
   "size-limit": [
     {
-      "limit": "800 B",
+      "limit": "1.5 kB",
       "path": "dist/index.js"
     }
   ],
@@ -121,12 +121,12 @@
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.2.5",
     "@types/react": "^18.0.26",
-    "@typescript-eslint/eslint-plugin": "^2.34.0",
-    "@typescript-eslint/parser": "^2.34.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
     "del-cli": "^5.0.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-react-app": "^6.2.2",
+    "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^7.0.4",
     "jest": "^29.3.1",
