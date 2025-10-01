@@ -10,21 +10,21 @@ import {
 function useStorageState<S>(
   storage: StorageObj,
   key: string,
-  defaultState: S | (() => S)
+  defaultState: S | (() => S),
 ): [S, Dispatch<SetStateAction<S>>, Error | undefined];
 
 function useStorageState<S>(
   storage: StorageObj,
-  key: string
+  key: string,
 ): [S | null, Dispatch<SetStateAction<S | null>>, Error | undefined];
 
 function useStorageState<S>(
   storage: StorageObj,
   key: string,
-  defaultState: S | (() => S) | null = null
+  defaultState: S | (() => S) | null = null,
 ) {
   const [state, setState] = useState(
-    useInitialState(storage, key, defaultState)
+    useInitialState(storage, key, defaultState),
   );
 
   useStorageListener(storage, key, defaultState, setState);

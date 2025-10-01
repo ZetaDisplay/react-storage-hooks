@@ -11,7 +11,7 @@ const FORCE_STATE_ACTION = '__FORCE_STATE_INTERNAL_API__';
 type ForceStateAction<S> = { type: typeof FORCE_STATE_ACTION; payload: S };
 
 function isForceStateAction<S, A>(
-  action: A | ForceStateAction<S>
+  action: A | ForceStateAction<S>,
 ): action is ForceStateAction<S> {
   return (
     typeof action === 'object' &&
@@ -32,7 +32,7 @@ function useStorageReducer<S, A>(
   storage: StorageObj,
   key: string,
   reducer: Reducer<S, A>,
-  defaultState: S
+  defaultState: S,
 ): [S, Dispatch<A>, Error | undefined];
 
 function useStorageReducer<S, A, I>(
@@ -40,7 +40,7 @@ function useStorageReducer<S, A, I>(
   key: string,
   reducer: Reducer<S, A>,
   defaultInitialArg: I,
-  defaultInit: (defaultInitialArg: I) => S
+  defaultInit: (defaultInitialArg: I) => S,
 ): [S, Dispatch<A>, Error | undefined];
 
 function useStorageReducer<S, A, I = S>(
@@ -48,13 +48,13 @@ function useStorageReducer<S, A, I = S>(
   key: string,
   reducer: Reducer<S, A>,
   defaultInitialArg: I,
-  defaultInit: (defaultInitialArg: I | S) => S = (x) => x as S
+  defaultInit: (defaultInitialArg: I | S) => S = (x) => x as S,
 ): [S, Dispatch<A>, Error | undefined] {
   const defaultState = defaultInit(defaultInitialArg);
 
   const [state, dispatch] = useReducer(
     addForceStateActionToReducer(reducer),
-    useInitialState(storage, key, defaultState)
+    useInitialState(storage, key, defaultState),
   );
 
   useStorageListener(storage, key, defaultState, (newValue: S) => {

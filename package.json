@@ -16,7 +16,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint src/*.ts",
-    "fmt": "prettier --check *.md *.json src/*.ts",
+    "fmt": "prettier --check --write *.md *.json src/*.ts",
     "types": "tsd",
     "test": "jest",
     "test:watch": "npm test -- --watch",

@@ -46,7 +46,7 @@ function StateCounter() {
   const [count, setCount, writeError] = useStorageState(
     localStorage,
     'state-counter',
-    0
+    0,
   );
 
   return (
@@ -68,7 +68,7 @@ function StateCounter() {
 function useStorageState<S>(
   storage: Storage,
   key: string,
-  defaultState?: S | (() => S)
+  defaultState?: S | (() => S),
 ): [S, React.Dispatch<React.SetStateAction<S>>, Error | undefined];
 ```
 
@@ -96,7 +96,7 @@ function ReducerCounter() {
     localStorage,
     'reducer-counter',
     reducer,
-    { count: 0 }
+    { count: 0 },
   );
 
   return (
@@ -119,7 +119,7 @@ function useStorageReducer<S, A>(
   storage: Storage,
   key: string,
   reducer: React.Reducer<S, A>,
-  defaultState: S
+  defaultState: S,
 ): [S, React.Dispatch<A>, Error | undefined];
 
 function useStorageReducer<S, A, I>(
@@ -127,7 +127,7 @@ function useStorageReducer<S, A, I>(
   key: string,
   reducer: React.Reducer<S, A>,
   defaultInitialArg: I,
-  defaultInit: (defaultInitialArg: I) => S
+  defaultInit: (defaultInitialArg: I) => S,
 ): [S, React.Dispatch<A>, Error | undefined];
 ```
 
