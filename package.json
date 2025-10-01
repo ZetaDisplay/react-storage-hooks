@@ -1,6 +1,6 @@
 {
   "name": "@zetadisplay/react-storage-hooks",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "React hooks for persistent state. Forked from https://github.com/soyguijarro/react-storage-hooks, original author Ramón Guijarro <hola@soyguijarro.com>",
   "keywords": [
     "react",
