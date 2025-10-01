@@ -10,6 +10,7 @@ function readItem<T>(storage: StorageObj, key: string) {
   try {
     const storedValue = storage.getItem(key);
     return fromStorage<T>(storedValue);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     return null;
   }
@@ -35,20 +36,20 @@ function writeItem<T>(storage: StorageObj, key: string, value: T | null) {
 export function useInitialState<S>(
   storage: StorageObj,
   key: string,
-  defaultState: S
+  defaultState: S,
 ) {
   const defaultStateRef = useRef(defaultState);
 
   return useMemo(
     () => readItem<S>(storage, key) ?? defaultStateRef.current,
-    [key, storage]
+    [key, storage],
   );
 }
 
 export function useStorageWriter<S>(
   storage: StorageObj,
   key: string,
-  state: S
+  state: S,
 ) {
   const [writeError, setWriteError] = useState<Error | undefined>(undefined);
 
@@ -73,7 +74,7 @@ export function useStorageListener<S>(
   storage: StorageObj,
   key: string,
   defaultState: S,
-  onChange: (newValue: S) => void
+  onChange: (newValue: S) => void,
 ) {
   const defaultStateRef = useRef(defaultState);
   const onChangeRef = useRef(onChange);
@@ -92,7 +93,7 @@ export function useStorageListener<S>(
     function onStorageChange(event: StorageEvent) {
       if (event.key === key) {
         onChangeRef.current(
-          fromStorage<S>(event.newValue) ?? defaultStateRef.current
+          fromStorage<S>(event.newValue) ?? defaultStateRef.current,
         );
       }
     }
