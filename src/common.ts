@@ -2,6 +2,21 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 
 export type StorageObj = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
+/**
+ * Provide a fallback for storage in environments where it is not available (server-side rendering).
+ */
+const getSafeStorage = (storage: StorageObj | undefined): StorageObj => {
+  const noopStorage: StorageObj = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+  };
+
+  return storage && typeof storage.getItem === 'function'
+    ? storage
+    : noopStorage;
+};
+
 function fromStorage<T>(value: string | null) {
   return value !== null ? (JSON.parse(value) as T) : null;
 }
@@ -40,9 +55,11 @@ export function useInitialState<S>(
 ) {
   const defaultStateRef = useRef(defaultState);
 
+  const safeStorage = getSafeStorage(storage);
+
   return useMemo(
-    () => readItem<S>(storage, key) ?? defaultStateRef.current,
-    [key, storage],
+    () => readItem<S>(safeStorage, key) ?? defaultStateRef.current,
+    [key, safeStorage],
   );
 }
 
@@ -53,8 +70,10 @@ export function useStorageWriter<S>(
 ) {
   const [writeError, setWriteError] = useState<Error | undefined>(undefined);
 
+  const safeStorage = getSafeStorage(storage);
+
   useEffect(() => {
-    writeItem<S>(storage, key, state).catch((error) => {
+    writeItem<S>(safeStorage, key, state).catch((error) => {
       if (!error || !error.message || error.message !== writeError?.message) {
         setWriteError(error);
       }
@@ -65,7 +84,7 @@ export function useStorageWriter<S>(
         setWriteError(undefined);
       };
     }
-  }, [state, key, writeError, storage]);
+  }, [state, key, writeError, storage, safeStorage]);
 
   return writeError;
 }
@@ -79,6 +98,8 @@ export function useStorageListener<S>(
   const defaultStateRef = useRef(defaultState);
   const onChangeRef = useRef(onChange);
 
+  const safeStorage = getSafeStorage(storage);
+
   const firstRun = useRef(true);
   useEffect(() => {
     if (firstRun.current) {
@@ -86,8 +107,10 @@ export function useStorageListener<S>(
       return;
     }
 
-    onChangeRef.current(readItem<S>(storage, key) ?? defaultStateRef.current);
-  }, [key, storage]);
+    onChangeRef.current(
+      readItem<S>(safeStorage, key) ?? defaultStateRef.current,
+    );
+  }, [key, safeStorage, storage]);
 
   useEffect(() => {
     function onStorageChange(event: StorageEvent) {
