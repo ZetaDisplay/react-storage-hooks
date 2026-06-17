@@ -8,18 +8,18 @@ import {
 } from './common';
 
 function useStorageState<S>(
-  storage: StorageObj,
+  storage: StorageObj | undefined,
   key: string,
   defaultState: S | (() => S),
 ): [S, Dispatch<SetStateAction<S>>, Error | undefined];
 
 function useStorageState<S>(
-  storage: StorageObj,
+  storage: StorageObj | undefined,
   key: string,
 ): [S | null, Dispatch<SetStateAction<S | null>>, Error | undefined];
 
 function useStorageState<S>(
-  storage: StorageObj,
+  storage: StorageObj | undefined,
   key: string,
   defaultState: S | (() => S) | null = null,
 ) {

@@ -49,7 +49,7 @@ function writeItem<T>(storage: StorageObj, key: string, value: T | null) {
 }
 
 export function useInitialState<S>(
-  storage: StorageObj,
+  storage: StorageObj | undefined,
   key: string,
   defaultState: S,
 ) {
@@ -64,7 +64,7 @@ export function useInitialState<S>(
 }
 
 export function useStorageWriter<S>(
-  storage: StorageObj,
+  storage: StorageObj | undefined,
   key: string,
   state: S,
 ) {
@@ -90,7 +90,7 @@ export function useStorageWriter<S>(
 }
 
 export function useStorageListener<S>(
-  storage: StorageObj,
+  storage: StorageObj | undefined,
   key: string,
   defaultState: S,
   onChange: (newValue: S) => void,
